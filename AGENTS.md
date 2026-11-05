@@ -60,6 +60,10 @@ Redis is for caching and key tracking only. There is no cache package until a co
   loading, error, not-found, config files): define `const Page = () => {...}; export default Page;`.
 - Use `export const` arrow functions for every function and component. No `function` declarations.
   In `.tsx`, write generics as `<T,>(...) =>`.
+- Group related functions into named object exports for services, repositories and controllers
+  (e.g. `authService.login()`, `userRepository.findById()`). Do not export these functions
+  individually. Standalone functions, hooks and components remain individual `export const`
+  exports.
 - Use `type`, never `interface`. Use string unions or `z.enum`, never TypeScript `enum` in app code.
 - Use `import type` for type-only imports.
 - Export a Zod schema and its inferred type under the same name:
