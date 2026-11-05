@@ -233,14 +233,6 @@ export default defineConfig([
     },
   },
 
-  // TODO(P0-A): replace the startup message with the shared structured logger.
-  {
-    files: ["apps/api/src/server.ts"],
-    rules: {
-      "no-console": "warn",
-    },
-  },
-
   {
     files: [
       "**/*.config.{js,mjs,cjs,ts}",
