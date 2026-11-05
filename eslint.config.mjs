@@ -102,7 +102,11 @@ export default defineConfig([
         "error",
         {
           default: "disallow",
+          checkAllOrigins: true,
           policies: [
+            {
+              allow: { to: { module: { origin: "external" } } },
+            },
             {
               from: { element: { type: "db" } },
               allow: { to: { element: { type: "core" } } },
@@ -170,6 +174,16 @@ export default defineConfig([
             {
               from: { element: { type: "web" } },
               allow: { to: { element: { type: "core" } } },
+            },
+            {
+              from: { element: { type: "web" } },
+              disallow: { to: { module: { origin: "external", source: "@context-bot/*" } } },
+            },
+            {
+              from: { element: { type: "web" } },
+              allow: {
+                to: { module: { origin: "external", source: "@context-bot/core" } },
+              },
             },
           ],
         },
