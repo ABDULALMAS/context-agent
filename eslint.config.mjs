@@ -74,7 +74,12 @@ export default defineConfig([
         {
           patterns: [
             {
-              group: ["@context-bot/*/src/**", "@context-bot/*/dist/**"],
+              group: [
+                "@context-bot/*/src/**",
+                "@context-bot/*/dist/**",
+                "@context-bot/*/*",
+                "**/packages/*/src/**",
+              ],
               message: "Import workspace packages through their public entry point.",
             },
           ],
