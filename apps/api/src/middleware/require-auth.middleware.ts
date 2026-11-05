@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import { ErrorCode } from "@context-bot/core";
 
 import { AppError } from "../errors/app-error.js";
+import { authContext } from "../auth/auth-context.js";
 import { authService } from "../services/auth.service.js";
 import { SESSION_COOKIE_NAME, SESSION_COOKIE_OPTIONS } from "../config/session.js";
 
@@ -24,7 +25,7 @@ export const requireAuth = async (
     throw new AppError(ErrorCode.UNAUTHENTICATED, 401, "Session expired or invalid.");
   }
 
-  res.locals.user = user;
+  authContext.setUser(res, user);
 
   next();
 };

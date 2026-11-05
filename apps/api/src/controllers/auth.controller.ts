@@ -8,6 +8,7 @@ import {
 } from "@context-bot/core";
 
 import { AppError } from "../errors/app-error.js";
+import { authContext } from "../auth/auth-context.js";
 import { authService } from "../services/auth.service.js";
 import {
   SESSION_COOKIE_NAME,
@@ -33,7 +34,7 @@ export const authController = {
   },
 
   me: async (_req: Request, res: Response): Promise<void> => {
-    res.status(200).json(MeResponse.parse({ user: res.locals.user }));
+    res.status(200).json(MeResponse.parse({ user: authContext.requireUser(res) }));
   },
 
   logout: async (req: Request, res: Response): Promise<void> => {

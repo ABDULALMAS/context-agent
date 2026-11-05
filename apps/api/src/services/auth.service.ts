@@ -2,7 +2,12 @@ import argon2 from "argon2";
 import { createHash, randomBytes } from "node:crypto";
 
 import { sessionRepository, userRepository } from "@context-bot/db";
-import type { LoginRequest } from "@context-bot/core";
+import type { AuthUser, LoginRequest } from "@context-bot/core";
+
+type LoginSession = {
+  token: string;
+  user: AuthUser;
+};
 
 const IDLE_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
 const ABSOLUTE_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000;
@@ -11,7 +16,7 @@ const ACTIVITY_UPDATE_INTERVAL_MS = 15 * 60 * 1000;
 const hashToken = (token: string) => createHash("sha256").update(token).digest("hex");
 
 export const authService = {
-  login: async ({ username, password }: LoginRequest) => {
+  login: async ({ username, password }: LoginRequest): Promise<LoginSession | null> => {
     const user = await userRepository.findByUsername(username);
 
     if (!user || !user.isActive) {
@@ -42,11 +47,12 @@ export const authService = {
       user: {
         id: user.id,
         username: user.username,
+        role: user.role,
       },
     };
   },
 
-  validateSession: async (token: string) => {
+  validateSession: async (token: string): Promise<AuthUser | null> => {
     const session = await sessionRepository.findByTokenHash(hashToken(token));
 
     if (!session) return null;
@@ -80,6 +86,7 @@ export const authService = {
     return {
       id: session.user.id,
       username: session.user.username,
+      role: session.user.role,
     };
   },
 

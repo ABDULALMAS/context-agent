@@ -1,7 +1,9 @@
+import type { Role } from "@context-bot/core";
+
 import { prisma } from "../client.js";
 
 export const userRepository = {
-  create: (data: { username: string; passwordHash: string }) => {
+  create: (data: { username: string; passwordHash: string; role: Role }) => {
     return prisma.user.create({ data });
   },
 

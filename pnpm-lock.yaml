@@ -341,6 +341,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@context-bot/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@prisma/adapter-pg':
         specifier: ^7.10.1
         version: 7.10.1

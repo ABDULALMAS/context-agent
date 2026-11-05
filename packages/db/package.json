@@ -20,6 +20,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@context-bot/core": "workspace:*",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
     "pg": "^8.23.1",
