@@ -324,12 +324,6 @@ importers:
 
   packages/agent: {}
 
-  packages/cache:
-    dependencies:
-      '@context-bot/core':
-        specifier: workspace:*
-        version: link:../core
-
   packages/core: {}
 
   packages/db:
