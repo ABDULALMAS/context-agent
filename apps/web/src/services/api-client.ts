@@ -1,7 +1,7 @@
 import { ErrorCode, ErrorEnvelope } from "@context-bot/core";
 import type { ErrorCode as ErrorCodeType } from "@context-bot/core";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { env } from "@/config/env";
 
 type ResponseSchema<T> = {
   safeParse: (value: unknown) => { success: true; data: T } | { success: false };
@@ -76,7 +76,7 @@ export const apiClient = {
     let response: Response;
 
     try {
-      response = await fetch(`${API_URL}${path}`, {
+      response = await fetch(`${env.NEXT_PUBLIC_API_URL}${path}`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -100,7 +100,7 @@ export const apiClient = {
     let response: Response;
 
     try {
-      response = await fetch(`${API_URL}${path}`, {
+      response = await fetch(`${env.NEXT_PUBLIC_API_URL}${path}`, {
         method: "GET",
         credentials: "include",
         ...options,

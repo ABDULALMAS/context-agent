@@ -7,7 +7,9 @@ dotenv.config({
 });
 
 const envSchema = z.object({
-  DATABASE_URL: z.string().min(1),
+  DATABASE_URL: z
+    .url()
+    .refine((url) => url.startsWith("postgresql://") || url.startsWith("postgres://")),
 });
 
 export const env = envSchema.parse(process.env);

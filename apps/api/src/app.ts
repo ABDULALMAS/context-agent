@@ -9,6 +9,10 @@ import { authRoutes } from "./routes/index.js";
 
 export const app: Express = express();
 
+if (env.TRUST_PROXY_HOPS > 0) {
+  app.set("trust proxy", env.TRUST_PROXY_HOPS);
+}
+
 app.use(
   cors({
     origin: env.APP_URL,
