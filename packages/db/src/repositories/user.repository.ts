@@ -13,6 +13,13 @@ export const userRepository = {
     });
   },
 
+  findUserWithPasswordHash: (username: string) => {
+    return prisma.user.findUnique({
+      where: { username },
+      omit: { passwordHash: false },
+    });
+  },
+
   findById: (id: string) => {
     return prisma.user.findUnique({
       where: { id },

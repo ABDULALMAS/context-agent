@@ -17,7 +17,7 @@ const hashToken = (token: string) => createHash("sha256").update(token).digest("
 
 export const authService = {
   login: async ({ username, password }: LoginRequest): Promise<LoginSession | null> => {
-    const user = await userRepository.findByUsername(username);
+    const user = await userRepository.findUserWithPasswordHash(username);
 
     if (!user || !user.isActive) {
       return null;
