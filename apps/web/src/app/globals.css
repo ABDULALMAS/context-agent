@@ -1,0 +1,487 @@
+@import "tailwindcss";
+
+/* Transfer target: Next.js App Router + Tailwind CSS 4.3.3.
+   No animation plugin, dark palette, or application UI is required. */
+
+@theme inline {
+  --font-sans: var(--font-ibm-plex-sans), "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-card: 21.6px;
+  --radius-pill: 45px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-tint: var(--brand-tint);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-warn: var(--warn);
+  --color-warn-tint: var(--warn-tint);
+  --color-ok: var(--ok);
+  --color-ok-tint: var(--ok-tint);
+  --color-bad: var(--bad);
+  --color-bad-tint: var(--bad-tint);
+  --color-live: var(--live);
+  --color-live-tint: var(--live-tint);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Semantic aliases for audited literals; preserve px versus rem. */
+  --spacing-page-inline: var(--space-page-inline);
+  --spacing-page-block: var(--space-page-block);
+  --spacing-content-gap: var(--space-content-gap);
+  --spacing-group-gap: var(--space-group-gap);
+  --spacing-section-gap: var(--space-section-gap);
+  --spacing-card-padding: var(--space-card-padding);
+  --spacing-card-compact: var(--space-card-compact);
+  --spacing-card-dense: var(--space-card-dense);
+  --radius-control: var(--radius-md);
+  --radius-nav: var(--radius-xl);
+  --radius-inset: var(--radius-2xl);
+  --radius-chat-bubble: var(--radius-chat);
+  --radius-composer: var(--radius-chat-composer);
+  --radius-home-composer: var(--radius-home-input);
+  --shadow-ring: var(--elevation-ring);
+  --shadow-elevated: var(--elevation-raised);
+  --shadow-button: var(--shadow-btn);
+  --shadow-button-dark: var(--shadow-btn-dark);
+  --shadow-control: var(--elevation-control);
+  --shadow-popover: var(--elevation-popover);
+  --shadow-dialog: var(--elevation-dialog);
+  --text-body: var(--type-body-size);
+  --text-body--line-height: var(--type-body-leading);
+  --text-ui: var(--type-ui-size);
+  --text-ui--line-height: var(--type-ui-leading);
+  --text-chat-body: var(--type-chat-size);
+  --text-chat-body--line-height: var(--type-chat-leading);
+  --text-draft-body: var(--type-chat-size);
+  --text-draft-body--line-height: var(--type-draft-leading);
+  --container-home: var(--layout-home-max);
+  --container-chat: var(--layout-chat-max);
+  --container-run-detail: var(--layout-run-detail-max);
+  --container-settings: var(--layout-settings-max);
+  --container-review: var(--layout-review-max);
+  --container-prospects: var(--layout-prospects-max);
+  --container-review-detail: var(--layout-review-detail-max);
+  --container-login: var(--layout-login-max);
+}
+
+/* These match the installed Tailwind defaults; do not change the root size. */
+@theme {
+  --spacing: 0.25rem;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root {
+  --space-page-inline: 22px;
+  --space-page-block: 44px;
+  --space-content-gap: 22px;
+  --space-group-gap: 14px;
+  --space-section-gap: 72px;
+  --space-card-padding: 28.8px;
+  --space-card-compact: 22px;
+  --space-card-dense: 14px;
+  --space-pill-inline: 18px;
+  --space-pill-block: 10.8px;
+  --space-pill-small-inline: 13px;
+  --space-pill-small-block: 7px;
+  --space-home-top: 14vh;
+  --radius-chat: 18px;
+  --radius-chat-composer: 22px;
+  --radius-home-input: 28px;
+  --ink-hover: oklch(0.3 0 0);
+  --overlay-dialog: rgb(0 0 0 / 0.8);
+  --type-body-size: 16.2px;
+  --type-body-leading: 23.4px;
+  --type-ui-size: 12.6px;
+  --type-ui-leading: 17px;
+  --type-chat-size: 15px;
+  --type-chat-leading: 23px;
+  --type-draft-leading: 25px;
+  --layout-sidebar-expanded: 240px;
+  --layout-sidebar-collapsed: 64px;
+  --layout-home-max: 680px;
+  --layout-chat-max: 720px;
+  --layout-run-panel: min(520px, 100%);
+  --layout-run-detail-max: 900px;
+  --layout-settings-max: 900px;
+  --layout-review-max: 1000px;
+  --layout-prospects-max: 1100px;
+  --layout-review-detail-max: 1240px;
+  --layout-login-max: 400px;
+  --layout-evidence-width: 400px;
+  --layout-dialog-max: 32rem;
+  --elevation-ring: var(--shadow-ring);
+  --elevation-raised: var(--shadow-elevated);
+  --elevation-control: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --elevation-popover: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --elevation-dialog: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --motion-interaction: 150ms;
+  --motion-message: 200ms;
+  --motion-panel: 250ms;
+  --motion-home: 300ms;
+  --motion-progress: 400ms;
+  --motion-stage-pulse: 1.8s;
+  --motion-dots: 1.2s;
+  --ease-interaction: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --radius: 0.75rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.13 0.028 261.7);
+  --ink: oklch(0.25 0 0);
+  --ink-foreground: oklch(1 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.13 0.028 261.7);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.028 261.7);
+  --primary: oklch(0.21 0.034 264.7);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.967 0.003 264.5);
+  --secondary-foreground: oklch(0.21 0.034 264.7);
+  --muted: oklch(0.985 0.002 247.8);
+  --muted-foreground: oklch(0.446 0.026 256.8);
+  --subtle: oklch(0.551 0.023 264.4);
+  --accent: oklch(0.97 0.014 254.6);
+  --accent-foreground: oklch(0.546 0.215 262.9);
+  --surface: oklch(0.985 0.002 247.8);
+  --surface-2: oklch(0.967 0.003 264.5);
+  --brand: oklch(0.546 0.215 262.9);
+  --brand-soft: oklch(0.714 0.143 254.6);
+  --brand-tint: oklch(0.97 0.014 254.6);
+  --warn: oklch(0.473 0.137 46.2);
+  --warn-tint: oklch(0.987 0.022 95.3);
+  --ok: oklch(0.448 0.108 151.3);
+  --ok-tint: oklch(0.982 0.018 155.8);
+  --bad: oklch(0.505 0.19 27.5);
+  --bad-tint: oklch(0.971 0.013 17.4);
+  --live: oklch(0.444 0.177 26.9);
+  --live-tint: oklch(0.936 0.032 17.7);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0 0 0 / 0.08);
+  --input: oklch(0 0 0 / 0.12);
+  --ring: oklch(0.714 0.143 254.6);
+  --sidebar: oklch(0.985 0.002 247.8);
+  --sidebar-foreground: oklch(0.13 0.028 261.7);
+  --sidebar-primary: oklch(0.21 0.034 264.7);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.967 0.003 264.5);
+  --sidebar-accent-foreground: oklch(0.13 0.028 261.7);
+  --sidebar-border: oklch(0 0 0 / 0.06);
+  --sidebar-ring: oklch(0.714 0.143 254.6);
+
+  --shadow-ring: oklab(0 0 0 / 0.08) 0 0 0 1px;
+  --shadow-elevated: rgba(0, 0, 0, 0.08) 0 0.9px 28.8px -0.9px, rgba(0, 0, 0, 0.2) 0 1.8px 5.4px 0;
+  --shadow-btn: rgba(0, 0, 0, 0.05) 0 0.9px 1.8px -0.9px;
+  --shadow-btn-dark:
+    rgba(0, 0, 0, 0.4) 0 -1.8px 1.8px inset, rgba(255, 255, 255, 0.35) 0 1.8px 1.8px inset;
+  --glow-home: radial-gradient(60% 60% at 50% 40%, oklch(0.97 0.014 254.6) 0%, transparent 70%);
+}
+
+@utility card-ring {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-ring);
+}
+@utility elevated {
+  background: var(--card);
+  box-shadow: var(--shadow-elevated);
+}
+@utility pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10.8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 12.6px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  background: var(--background);
+  color: var(--primary);
+  border: 1px solid rgb(0 0 0 / 0.12);
+  box-shadow: var(--shadow-btn);
+  transition:
+    background-color 0.15s,
+    box-shadow 0.15s,
+    opacity 0.15s;
+  cursor: pointer;
+  &:hover {
+    background: var(--surface);
+  }
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+@utility pill-dark {
+  background: var(--ink);
+  color: var(--ink-foreground);
+  border-color: transparent;
+  box-shadow: var(--shadow-btn-dark);
+  &:hover {
+    background: var(--ink-hover);
+  }
+}
+@utility pill-sm {
+  min-height: 34px;
+  padding: 7px 13px;
+}
+@utility glow-home {
+  background: var(--glow-home);
+}
+@utility text-ui {
+  font-size: 12.6px;
+  line-height: 17px;
+}
+@utility link-blue {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    font-family: var(--font-sans);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-leading);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 400;
+  }
+  .h1 {
+    font-size: 50px;
+    line-height: 55px;
+    letter-spacing: -2px;
+  }
+  .h2 {
+    font-size: 43px;
+    line-height: 52px;
+    letter-spacing: -1.3px;
+  }
+  .h3 {
+    font-size: 32px;
+    line-height: 39px;
+    letter-spacing: -1.08px;
+  }
+  .h4 {
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.2px;
+  }
+  @media (max-width: 640px) {
+    .h1 {
+      font-size: 36px;
+      line-height: 40px;
+      letter-spacing: -1.4px;
+    }
+    .h2 {
+      font-size: 30px;
+      line-height: 36px;
+      letter-spacing: -1px;
+    }
+    .h3 {
+      font-size: 24px;
+      line-height: 30px;
+      letter-spacing: -0.7px;
+    }
+  }
+  :focus-visible {
+    outline: 2px solid var(--brand-soft);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes stage-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-soft) 50%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--brand-soft) 0%, transparent);
+  }
+}
+@keyframes dot-bounce {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+.animate-stage-pulse {
+  animation: stage-pulse var(--motion-stage-pulse) ease-in-out infinite;
+}
+.dots span {
+  animation: dot-bounce var(--motion-dots) infinite;
+}
+.dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-stage-pulse,
+  .dots span {
+    animation: none;
+  }
+}
+
+/* Compound recipes are additive: use pill + pill-sm / pill-dark. */
+@utility field {
+  width: 100%;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  padding: 0.625rem 0.75rem;
+  font-size: 14px;
+  box-shadow: var(--shadow-ring);
+  outline: none;
+  &:focus {
+    background: var(--background);
+    --tw-ring-color: var(--brand-soft);
+    --tw-ring-shadow: 0 0 0 2px var(--brand-soft);
+    box-shadow: var(--tw-ring-shadow), var(--shadow-ring);
+  }
+}
+@utility status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  white-space: nowrap;
+  border-radius: calc(infinity* 1px);
+  padding: 3px 0.625rem;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1rem;
+  /* Choose a semantic bg/text pair; neutral is not a forced default. */
+}
+@utility page-container {
+  margin-inline: auto;
+  padding: var(--space-page-block) var(--space-page-inline);
+  /* Pair with the relevant max-w-* utility. Width includes padding. */
+}
+@utility w-sidebar-expanded {
+  width: var(--layout-sidebar-expanded);
+}
+@utility w-sidebar-collapsed {
+  width: var(--layout-sidebar-collapsed);
+}
+@utility w-run-panel {
+  width: var(--layout-run-panel);
+}
+@utility duration-interaction {
+  transition-duration: var(--motion-interaction);
+}
+@utility duration-message {
+  transition-duration: var(--motion-message);
+}
+@utility duration-panel {
+  transition-duration: var(--motion-panel);
+}
+@utility duration-home {
+  transition-duration: var(--motion-home);
+}
+@utility duration-progress {
+  transition-duration: var(--motion-progress);
+}
+
+/* Original plugin values, expressed without requiring tw-animate-css.
+   Opt-in on stateful overlays; positioning/interaction remains app-owned. */
+@keyframes overlay-enter {
+  from {
+    opacity: 0;
+    scale: 0.95;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes overlay-exit {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+@utility overlay-motion {
+  &[data-state="open"] {
+    animation: overlay-enter 150ms ease;
+  }
+  &[data-state="closed"] {
+    animation: overlay-exit 150ms ease;
+  }
+}
+@utility dialog-motion {
+  &[data-state="open"] {
+    animation: overlay-enter 200ms ease;
+  }
+  &[data-state="closed"] {
+    animation: overlay-exit 200ms ease;
+  }
+}
+/* Intentionally opt-in, not a universal motion reset. The source only
+   disables stage pulse/dots globally; other motion guards were local. */
+@media (prefers-reduced-motion: reduce) {
+  .overlay-motion,
+  .dialog-motion {
+    animation: none !important;
+  }
+}
