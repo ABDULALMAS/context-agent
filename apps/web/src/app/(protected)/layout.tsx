@@ -1,12 +1,25 @@
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
+import type { AuthUser } from "@context-bot/core";
 
 import { authKeys } from "@/features/auth/auth.keys";
 import { getCurrentUser } from "@/lib/auth";
 
 const AuthenticatedContent = async ({ children }: { children: ReactNode }) => {
-  const user = await getCurrentUser();
+  let user: AuthUser | null;
+
+  try {
+    user = await getCurrentUser();
+  } catch {
+    return (
+      <main className="flex min-h-dvh items-center justify-center">
+        <p role="alert" className="text-sm text-destructive">
+          Unable to verify your session. Please refresh and try again.
+        </p>
+      </main>
+    );
+  }
 
   if (!user) {
     redirect("/login");

@@ -1,28 +1,26 @@
 import { headers } from "next/headers";
+import { ErrorCode, MeResponse } from "@context-bot/core";
+import type { AuthUser } from "@context-bot/core";
 
-import type { AuthUser } from "@/features/auth/hooks/use-me";
-
-type MeResponse = {
-  user: AuthUser;
-};
+import { ApiError, apiClient } from "@/services/api-client";
 
 export const getCurrentUser = async (): Promise<AuthUser | null> => {
   const cookie = (await headers()).get("cookie");
+  const options: RequestInit = { cache: "no-store" };
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
-    headers: cookie ? { cookie } : undefined,
-    cache: "no-store",
-  });
-
-  if (response.status === 401) {
-    return null;
+  if (cookie) {
+    options.headers = { cookie };
   }
 
-  if (!response.ok) {
-    throw new Error("Unable to verify your session.");
+  try {
+    const response = await apiClient.get("/auth/me", MeResponse, options);
+
+    return response.user;
+  } catch (error) {
+    if (error instanceof ApiError && error.code === ErrorCode.UNAUTHENTICATED) {
+      return null;
+    }
+
+    throw error;
   }
-
-  const data = (await response.json()) as MeResponse;
-
-  return data.user;
 };

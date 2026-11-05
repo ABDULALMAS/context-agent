@@ -1,24 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { LoginResponse } from "@context-bot/core";
+import type { LoginRequest } from "@context-bot/core";
 
 import { apiClient } from "@/services/api-client";
-import { type AuthUser } from "./use-me";
 import { authKeys } from "../auth.keys";
-
-type LoginInput = {
-  username: string;
-  password: string;
-};
-
-type LoginResponse = {
-  user: AuthUser;
-};
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (credentials: LoginInput) => {
-      const response = await apiClient.post<LoginResponse>("/auth/login", credentials);
+    mutationFn: async (credentials: LoginRequest) => {
+      const response = await apiClient.post("/auth/login", LoginResponse, credentials);
 
       return response.user;
     },

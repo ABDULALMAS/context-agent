@@ -1,19 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
+import { MeResponse } from "@context-bot/core";
+import type { AuthUser } from "@context-bot/core";
 
 import { apiClient } from "@/services/api-client";
 import { authKeys } from "../auth.keys";
 
-export type AuthUser = {
-  id: string;
-  username: string;
-};
-
-type MeResponse = {
-  user: AuthUser;
-};
+export type { AuthUser } from "@context-bot/core";
 
 const getMe = async (): Promise<AuthUser> => {
-  const response = await apiClient.get<MeResponse>("/auth/me");
+  const response = await apiClient.get("/auth/me", MeResponse);
 
   return response.user;
 };
