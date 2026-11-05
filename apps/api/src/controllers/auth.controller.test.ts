@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ErrorCode } from "@context-bot/core";
 
 import { authService } from "../services/auth.service.js";
-import { errorMiddleware } from "../middleware/error.middleware.js";
+import { createErrorMiddleware } from "../middleware/error.middleware.js";
 import { authController } from "./auth.controller.js";
 
 vi.mock("../services/auth.service.js", () => ({
@@ -30,7 +30,12 @@ const invokeLogin = async (credentials: unknown) => {
   try {
     await authController.login(request, response as unknown as Response);
   } catch (error) {
-    errorMiddleware(error, request, response as unknown as Response, vi.fn());
+    createErrorMiddleware({ error: vi.fn() } as never)(
+      error,
+      request,
+      response as unknown as Response,
+      vi.fn(),
+    );
   }
 
   return response;

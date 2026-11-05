@@ -1,8 +1,17 @@
 import { defineConfig } from "vitest/config";
+import { fileURLToPath } from "node:url";
 
 export default defineConfig({
+  resolve: {
+    alias: [
+      {
+        find: /^@\//,
+        replacement: `${fileURLToPath(new URL("./apps/web/src", import.meta.url))}/`,
+      },
+    ],
+  },
   test: {
-    include: ["apps/**/src/**/*.{test,spec}.{ts,tsx}", "packages/**/src/**/*.{test,spec}.{ts,tsx}"],
+    include: ["src/**/*.{test,spec}.{ts,tsx}"],
 
     coverage: {
       provider: "v8",

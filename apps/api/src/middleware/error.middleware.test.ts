@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { ErrorCode, LoginRequest } from "@context-bot/core";
 
 import { AppError } from "../errors/app-error.js";
-import { errorMiddleware } from "./error.middleware.js";
+import { createErrorMiddleware } from "./error.middleware.js";
 
 const createResponse = () => ({
   status: vi.fn().mockReturnThis(),
@@ -14,7 +14,12 @@ const createResponse = () => ({
 const invokeMiddleware = (error: unknown) => {
   const response = createResponse();
 
-  errorMiddleware(error, {} as Request, response as unknown as Response, vi.fn());
+  createErrorMiddleware({ error: vi.fn() } as never)(
+    error,
+    {} as Request,
+    response as unknown as Response,
+    vi.fn(),
+  );
 
   return response;
 };
@@ -60,23 +65,28 @@ describe("errorMiddleware", () => {
     });
   });
 
-  it("returns a generic internal error and logs only the error name", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+  it("returns a generic internal error and logs its request id and name", () => {
+    const logger = { error: vi.fn() };
+    const response = createResponse();
 
-    try {
-      const response = invokeMiddleware(new Error("sensitive value"));
+    createErrorMiddleware(logger as never)(
+      new Error("sensitive value"),
+      { id: "request-id" } as Request,
+      response as unknown as Response,
+      vi.fn(),
+    );
 
-      expect(response.status).toHaveBeenCalledWith(500);
-      expect(response.json).toHaveBeenCalledWith({
-        error: {
-          code: ErrorCode.INTERNAL,
-          message: "Internal server error.",
-        },
-      });
-      expect(consoleError).toHaveBeenCalledWith("Unhandled API error", { name: "Error" });
-      expect(consoleError).not.toHaveBeenCalledWith(expect.stringContaining("sensitive value"));
-    } finally {
-      consoleError.mockRestore();
-    }
+    expect(response.status).toHaveBeenCalledWith(500);
+    expect(response.json).toHaveBeenCalledWith({
+      error: {
+        code: ErrorCode.INTERNAL,
+        message: "Internal server error.",
+      },
+    });
+    expect(logger.error).toHaveBeenCalledWith(
+      { requestId: "request-id", errorName: "Error" },
+      "Unhandled API error",
+    );
+    expect(JSON.stringify(logger.error.mock.calls)).not.toContain("sensitive value");
   });
 });

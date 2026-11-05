@@ -1,5 +1,13 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
+  "globalPassThroughEnv": [
+    "APP_URL",
+    "DATABASE_URL",
+    "DIRECT_URL",
+    "LOG_LEVEL",
+    "NEXT_PUBLIC_API_URL",
+    "NODE_ENV"
+  ],
   "tasks": {
     "dev": {
       "cache": false,

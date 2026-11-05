@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "user:create": "tsx scripts/create-user.ts",
     "lint": "eslint .",
-    "test": "vitest run"
+    "test": "vitest run --config ../../vitest.config.ts"
   },
   "dependencies": {
     "@context-bot/core": "workspace:*",
