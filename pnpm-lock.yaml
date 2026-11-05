@@ -214,6 +214,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@context-bot/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@context-bot/db':
         specifier: workspace:*
         version: link:../../packages/db

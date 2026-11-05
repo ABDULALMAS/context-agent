@@ -108,6 +108,9 @@ export default defineConfig([
               allow: { to: { module: { origin: "external" } } },
             },
             {
+              allow: { to: { module: { origin: "core" } } },
+            },
+            {
               from: { element: { type: "db" } },
               allow: { to: { element: { type: "core" } } },
             },

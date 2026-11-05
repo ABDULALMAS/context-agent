@@ -2,8 +2,7 @@ import argon2 from "argon2";
 import { createHash, randomBytes } from "node:crypto";
 
 import { sessionRepository, userRepository } from "@context-bot/db";
-
-import type { LoginInput } from "../validators/auth.validator.js";
+import type { LoginRequest } from "@context-bot/core";
 
 const IDLE_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
 const ABSOLUTE_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000;
@@ -12,7 +11,7 @@ const ACTIVITY_UPDATE_INTERVAL_MS = 15 * 60 * 1000;
 const hashToken = (token: string) => createHash("sha256").update(token).digest("hex");
 
 export const authService = {
-  login: async ({ username, password }: LoginInput) => {
+  login: async ({ username, password }: LoginRequest) => {
     const user = await userRepository.findByUsername(username);
 
     if (!user || !user.isActive) {

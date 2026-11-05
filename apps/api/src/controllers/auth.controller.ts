@@ -1,7 +1,14 @@
-import type { Request, Response, NextFunction } from "express";
+import type { Request, Response } from "express";
+import {
+  ErrorCode,
+  LoginRequest,
+  LoginResponse,
+  MeResponse,
+  LogoutResponse,
+} from "@context-bot/core";
 
+import { AppError } from "../errors/app-error.js";
 import { authService } from "../services/auth.service.js";
-import { loginSchema } from "../validators/auth.validator.js";
 import {
   SESSION_COOKIE_NAME,
   SESSION_COOKIE_OPTIONS,
@@ -9,64 +16,35 @@ import {
 } from "../config/session.js";
 
 export const authController = {
-  login: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = loginSchema.safeParse(req.body);
+  login: async (req: Request, res: Response): Promise<void> => {
+    const credentials = LoginRequest.parse(req.body);
+    const session = await authService.login(credentials);
 
-      if (!result.success) {
-        res.status(400).json({
-          error: "Invalid request.",
-        });
-        return;
-      }
-
-      const session = await authService.login(result.data);
-
-      if (!session) {
-        res.status(401).json({
-          error: "Invalid username or password.",
-        });
-        return;
-      }
-
-      res.cookie(SESSION_COOKIE_NAME, session.token, {
-        ...SESSION_COOKIE_OPTIONS,
-        maxAge: SESSION_COOKIE_MAX_AGE,
-      });
-
-      res.status(200).json({
-        user: session.user,
-      });
-    } catch (error) {
-      next(error);
+    if (!session) {
+      throw new AppError(ErrorCode.INVALID_CREDENTIALS, 401, "Invalid username or password.");
     }
+
+    res.cookie(SESSION_COOKIE_NAME, session.token, {
+      ...SESSION_COOKIE_OPTIONS,
+      maxAge: SESSION_COOKIE_MAX_AGE,
+    });
+
+    res.status(200).json(LoginResponse.parse({ user: session.user }));
   },
 
-  me: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      res.status(200).json({
-        user: res.locals.user,
-      });
-    } catch (error) {
-      next(error);
-    }
+  me: async (_req: Request, res: Response): Promise<void> => {
+    res.status(200).json(MeResponse.parse({ user: res.locals.user }));
   },
 
-  logout: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const token = req.cookies?.[SESSION_COOKIE_NAME];
+  logout: async (req: Request, res: Response): Promise<void> => {
+    const token = req.cookies?.[SESSION_COOKIE_NAME];
 
-      if (token) {
-        await authService.logout(token);
-      }
-
-      res.clearCookie(SESSION_COOKIE_NAME, SESSION_COOKIE_OPTIONS);
-
-      res.status(200).json({
-        message: "Logged out successfully.",
-      });
-    } catch (error) {
-      next(error);
+    if (token) {
+      await authService.logout(token);
     }
+
+    res.clearCookie(SESSION_COOKIE_NAME, SESSION_COOKIE_OPTIONS);
+
+    res.status(200).json(LogoutResponse.parse({ message: "Logged out successfully." }));
   },
 };
