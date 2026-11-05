@@ -224,42 +224,6 @@ export default defineConfig([
     },
   },
 
-  // TODO(P0-A): convert these remaining declarations to exported arrow constants.
-  {
-    files: [
-      "apps/web/src/components/shared/mini-stages.tsx",
-      "apps/web/src/components/shared/page-header.tsx",
-      "apps/web/src/components/shared/empty.tsx",
-      "apps/web/src/components/shared/logo.tsx",
-      "apps/web/src/components/ui/chip.tsx",
-      "apps/web/src/components/ui/cap-chip.tsx",
-    ],
-    rules: {
-      "func-style": "warn",
-    },
-  },
-
-  // TODO(P0-A): convert these Next.js defaults to const arrows, then restore error severity.
-  {
-    files: [
-      "apps/web/src/app/layout.tsx",
-      "apps/web/src/app/(protected)/layout.tsx",
-      "apps/web/src/app/(protected)/page.tsx",
-      "apps/web/src/app/(auth)/layout.tsx",
-    ],
-    rules: {
-      "no-restricted-syntax": "warn",
-    },
-  },
-
-  // TODO(P0-A): remove the unused bindings after reviewing the startup and page code.
-  {
-    files: ["apps/api/src/server.ts", "apps/web/src/app/(protected)/page.tsx"],
-    rules: {
-      "@typescript-eslint/no-unused-vars": "warn",
-    },
-  },
-
   {
     files: [
       "**/*.config.{js,mjs,cjs,ts}",
